@@ -98,6 +98,8 @@ def set_database():
         elif key in ['speed', 'inspire', 'interactive', 'watch_ans_start']:
             value = int(value)
         else:
+            conn.commit()
+            conn.close()
             return f'Invalid key: {key}'
         
         conn.execute(f'''
