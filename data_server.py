@@ -516,5 +516,32 @@ def co2():
     db.close()
     return f"{co2}"
 
+'''
+return "10"
+'''
+@app.route('/inspire', methods=['GET'])
+def inspire():
+    db = sqlite3.connect('database.db')
+    cursor = db.cursor()
+    cursor.execute("SELECT inspire FROM cur_state")
+    result = cursor.fetchone()
+    inspire = result[0] if result else 0
+    db.close()
+    return f"{inspire}"
+
+'''
+return "10"
+'''
+@app.route('/interactive', methods=['GET'])
+def interactive():
+    db = sqlite3.connect('database.db')
+    cursor = db.cursor()
+    cursor.execute("SELECT interactive FROM cur_state")
+    result = cursor.fetchone()
+    interactive = result[0] if result else 0
+    db.close()
+    return f"{interactive}"
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
