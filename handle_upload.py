@@ -1,12 +1,13 @@
 import sqlite3
 import os
 import json
-from llm.chatgpt import chat
 import re
 import requests
+import time
+import random
 
+from llm.chatgpt import chat
 from SpeechRateAndAudioSilence_info import get_SpeechRateAndAudioSilence
-
 
 def print_database():
     db = sqlite3.connect('database.db')

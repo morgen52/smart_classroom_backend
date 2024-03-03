@@ -4,8 +4,6 @@ import json
 from flask_cors import CORS
 import sqlite3
 import time
-import threading
-import multiprocessing
 import random
 from datetime import datetime
 
@@ -83,6 +81,32 @@ def init():
 
 # init()
 from whisper_asr.audio2text import audio2text
+
+
+'''
+http://ip:port/set?arg1=value1&arg2=value2
+'''
+@app.route('/set', methods=['GET'])
+def set_database():
+    args = request.args
+    conn = sqlite3.connect('database.db')
+    for key, value in args.items():
+        if key in ['teacher_score', 'student_score', 'audio_silence', 'temperature', 'co2']:
+            value = float(value)
+        elif key in ['student_score_history', 'teacher_score_history', 'watch_feedback', 'watch_answer']:
+            value = json.dumps(json.loads(value)) # get http://0.0.0.0:8000/set?watch_feedback=[1,2,3,4]
+        elif key in ['speed', 'inspire', 'interactive', 'watch_ans_start']:
+            value = int(value)
+        else:
+            return f'Invalid key: {key}'
+        
+        conn.execute(f'''
+            UPDATE cur_state
+            SET {key} = ?
+        ''', (value,))
+    conn.commit()
+    conn.close()
+    return 'Database updated successfully.'
 
 '''
 payload_data = {
