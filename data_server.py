@@ -17,9 +17,7 @@ origins = [
     '*',
     'http://localhost',
     'http://127.0.0.1',
-    'http://0.0.0.0',
-    # 'http://162.105.175.69',
-    'http://54.165.81.221/'
+    'http://0.0.0.0'
 ]
 CORS(app, origins=origins)
 
